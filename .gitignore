@@ -1,0 +1,27 @@
+# Data files
+data/raw/*.jpg
+data/raw/*.png
+data/samples/*.jpg
+data/samples/*.png
+*.mp4
+*.avi
+*.mov
+
+# Annotations
+*.json
+annotations/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
