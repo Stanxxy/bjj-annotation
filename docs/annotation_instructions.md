@@ -3,6 +3,46 @@
 ## Project Overview
 You will be annotating images from Brazilian Jiu-Jitsu (BJJ) matches to help train computer vision models for athlete detection and match analysis.
 
+## For Upwork Contractors & Outsourced Annotators
+- **This document** is your main reference. Please read it fully before starting and keep it open while you work.
+- **No BJJ experience needed.** Follow the class definitions and examples; the instructions are self-contained.
+- **Deliverables:** Annotations are done directly in CVAT. You do not export or send files—we review and export from the server. Your job is to complete the assigned tasks in CVAT with high quality.
+- **Onboarding:** You will receive CVAT login credentials and a link to this document. You may be asked to complete a small test batch (e.g. 10–20 images) for QA before full batch work. **Test batch acceptance:** We require **>90% accuracy** (correct boxes, labels, and keypoints) on the test batch to approve you for full batches. If the test does not meet this bar, we will send feedback and you may be asked to redo a test batch.
+- **Communication:** Use the contact email in "Getting Help" for annotation questions, access issues, or unclear instructions. For project scope or payment, use the channel agreed in your contract (e.g. Upwork messages).
+- **Before you start:** (1) Receive CVAT login and this document. (2) Read this document once. (3) Log in to CVAT and complete any test batch if requested. (4) Then proceed with assigned tasks.
+
+## Annotation platform (CVAT)
+Annotations are done in **CVAT**. External annotators (e.g. Upwork contractors) connect at:
+
+- **URL:** [https://cvat.bjj-vision.com](https://cvat.bjj-vision.com)
+- **Login:** Use the username and password provided to you. Do not share these credentials.
+
+This instance supports marking keypoints as **occluded** (position known but not visible) and using **dotted lines** (dots link) for occluded connections, as described in the keypoint section below.
+
+### CVAT workflow (quick reference)
+- **Tasks / Jobs:** You will be assigned a task (or multiple jobs). Open the task and work through the frame list. Save your work regularly using the save control in the annotation interface.
+- **Bounding boxes:** Use the **Rectangle** tool. Choose the correct label: `athlete with gi`, `athlete with no gi`, or `referee`. Draw one box per person.
+- **Keypoints (skeleton):** Use the **Skeleton** or **Keypoints** tool with the project’s 17-point skeleton template. Place points in order (nose → eyes → ears → shoulders → elbows → wrists → hips → knees → ankles). Mark points as **occluded** when the joint is hidden; use **dotted links** for connections where at least one endpoint is occluded.
+- **Navigation:** Use the frame strip or Next/Previous to move between images. Complete all boxes for an image before moving to keypoints, then move to the next image.
+- **No export needed:** Annotations stay in CVAT; we will review and export them on our side.
+
+### CVAT keyboard shortcuts
+Default shortcuts (your instance may differ; see below to check or change them):
+
+| Key | Action |
+|-----|--------|
+| **F** | Next frame |
+| **D** | Previous frame |
+| **N** | Repeat the latest drawing procedure (same tool and label) |
+| **V** | Step forward one frame |
+| **C** | Step backward one frame |
+| **Q** or **/** | Toggle **occluded** for the active object (useful for keypoints) |
+| **F1** | Show/hide the full shortcuts list in CVAT |
+
+**Where to see or change shortcuts:** Open **Settings** (e.g. via the user menu in the header or **F2**), then go to the **Shortcuts** tab. You can view all defaults and assign custom shortcuts; they are saved in your browser. Official reference: [CVAT Shortcuts (docs.cvat.ai)](https://docs.cvat.ai/docs/getting_started/shortcuts/).
+
+*Note: In CVAT, **Ctrl+S** is not “save annotations” by default (it opens Settings). Save your work using the save control in the annotation UI, and use the Shortcuts settings if you want to assign a key for saving.*
+
 ## What You'll Annotate
 Each image contains 2-3 people:
 - **2 athletes** (competitors in BJJ match)
@@ -20,7 +60,8 @@ Draw rectangular boxes around each person in the image.
    - Includes any limbs that are visible
    - Has minimal empty space around the person
 3. Label each box as either:
-   - **`athlete`** - competitors wearing gi (traditional uniform) or no-gi attire
+   - **`athlete with gi`** - competitors wearing gi (traditional uniform)
+   - **`athlete with no gi`** - competitors wearing no-gi attire (rash guard, shorts)
    - **`referee`** - official wearing different uniform (usually black/white striped or solid colored shirt)
 
 **Quality Guidelines:**
@@ -32,15 +73,19 @@ Draw rectangular boxes around each person in the image.
 - ❌ **DON'T:** Skip people who are partially out of frame (annotate visible portion)
 
 **Examples:**
-```
 Good box:
+![Example of a Good Bounding Box](../pics/standard-box.png)
+```
 ┌──────────┐
 │ Athlete  │  ← Tight fit
 │  Person  │  ← All limbs included
 │    🧍    │  
 └──────────┘
-
+```
 Bad box:
+
+![Example of a Bad Bounding Box](../pics/bad-box.png)
+```
 ┌────────────────┐
 │                │  ← Too much empty space
 │      🧍        │
@@ -77,17 +122,22 @@ Standard COCO pose format - 17 points per person:
 **How to Mark Keypoints:**
 1. Click on the exact location of each body joint/landmark
 2. If a keypoint is **not visible** (occluded, out of frame, or obscured):
-   - Mark it as "not visible" or skip it (depending on your annotation tool)
-   - Do NOT guess where it might be
+   - **If your tool supports an "occluded" or visibility flag** (e.g. CVAT): you can place the keypoint where you believe it is and mark it as occluded—meaning "position known but not visible."
+   - **If your tool does not support that**: do **not** place the keypoint; leave it unplaced/skipped. Do NOT guess positions for invisible keypoints.
 3. "Left" and "Right" refer to the person's left/right (not your perspective)
+4. **Line style for occlusion (if supported by your tool):** When the connection between two keypoints is drawn as a **dotted line** (or "dots link"), it means that **at least one of the keypoints connected by that line is occluded** (hidden by another person, limb, or object). Use solid lines only when both keypoints and the limb between them are clearly visible. If your tool has no dotted-line option, follow the visibility rules above instead.
+
+**Example:**
+![Example of Pose Keypoint Annotation](../pics/pose-keypoints.png)
 
 **Quality Guidelines:**
 - ✅ **DO:** Place points precisely on the center of each joint
 - ✅ **DO:** Mark all visible keypoints
-- ✅ **DO:** Mark keypoints as "occluded" if blocked by another person/object
-- ❌ **DON'T:** Guess positions for invisible keypoints
+- ✅ **DO:** If the tool allows it, mark keypoints as "occluded" when blocked (position known but not visible) and use **dotted lines** (dots link) for occluded connections; otherwise only place keypoints you can see
+- ❌ **DON'T:** Guess positions for invisible keypoints (never place a keypoint you cannot see unless the tool explicitly supports "occluded" and you mark it as such)
 - ❌ **DON'T:** Mix up left/right (always use the person's perspective)
 - ❌ **DON'T:** Skip keypoints that are visible
+- ❌ **DON'T:** Use solid lines for occluded connections if your tool supports dotted lines—use dotted lines (dots link) instead
 
 **Special Cases:**
 
@@ -111,17 +161,31 @@ Standard COCO pose format - 17 points per person:
 
 ## Class Definitions
 
-### `athlete`
-**Who:** Competitors in the match
+### `athlete with gi`
+**Who:** Competitors wearing traditional BJJ uniform
 **Appearance:**
 - Wearing **gi** (traditional white, blue, or black kimono-style uniform)
-- OR wearing **no-gi** attire (rash guard, shorts, spats)
 - Usually on the ground or engaged with another athlete
 - May have colored belts visible
+
+**Example image:**
+![Athlete with gi](../pics/athlete-in-gi.jpg)
 
 **Examples:**
 - Person in white gi rolling on the mat
 - Person in blue gi standing/fighting
+
+### `athlete with no gi`
+**Who:** Competitors wearing no-gi attire
+**Appearance:**
+- Wearing **rash guard**, **shorts**, or **spats**
+- Usually on the ground or engaged with another athlete
+- No loose fabric to grab
+
+**Example image:**
+![Athlete with no gi](../pics/athlete-in-no-gi.jpg)
+
+**Examples:**
 - Person in rash guard and shorts grappling
 
 ### `referee`
@@ -135,6 +199,9 @@ Standard COCO pose format - 17 points per person:
 - Not actively grappling
 - May be gesturing or observing closely
 
+**Example image:**
+![Referee](../pics/referee.png)
+
 **Examples:**
 - Person in striped shirt standing over match
 - Person in black shirt kneeling beside athletes
@@ -145,7 +212,7 @@ Standard COCO pose format - 17 points per person:
 ## Common Mistakes to Avoid
 
 ### Mistake 1: Wrong Class Label
-❌ **Wrong:** Labeling a referee as `athlete` because they're on the mat
+❌ **Wrong:** Labeling a referee as `athlete with gi` or `athlete with no gi` because they're on the mat
 ✅ **Correct:** Check the uniform - referees wear different clothing
 
 ### Mistake 2: Loose Bounding Boxes
@@ -171,14 +238,15 @@ Standard COCO pose format - 17 points per person:
 Before submitting each image, verify:
 
 **Bounding Boxes:**
-- [ ] Every person in the image has a box
+- [ ] All athletes (2) have a box
+- [ ] The referee has a box if visible in the image
 - [ ] Boxes are tight (minimal empty space)
 - [ ] All visible body parts are included
-- [ ] Each box has correct label (`athlete` or `referee`)
+- [ ] Each box has correct label (`athlete with gi`, `athlete with no gi`, or `referee`)
 
 **Keypoints:**
 - [ ] All visible keypoints are marked for each person
-- [ ] Occluded keypoints are marked as "not visible"
+- [ ] Occluded keypoints are marked as "not visible" or left unplaced (if the tool has no occluded option); occluded connections use **dotted lines** (dots link) if supported
 - [ ] Left/right keypoints match the person's anatomical orientation
 - [ ] Keypoints are placed precisely on joints (not approximate)
 
@@ -186,58 +254,49 @@ Before submitting each image, verify:
 
 ## Examples
 
-### Example 1: Two Athletes Ground Fighting
-```
-Image: Two athletes in white gi grappling on the mat
+### Example 1: Two Athletes Ground Fighting (No-Gi)
 
-Bounding boxes:
-- Box 1: athlete (person on top)
-- Box 2: athlete (person on bottom)
+![Example 1: Ground fight](../pics/ground-fight.png)
 
-Keypoints:
-- Athlete 1: All keypoints visible except left ankle (behind other person)
-- Athlete 2: Only head, right shoulder, right elbow visible (rest occluded)
-```
+Two athletes in no-gi attire (rash guards and shorts) grappling on the ground. Draw **one bounding box per person** (tight, head to feet). Mark keypoints for each (in order to be clear in the picture we only mark keypoints for one athletes. In practice one should mark keypoints for both athletes)
+
+- **Bounding boxes:** Box 1: `athlete with no gi` (person on top). Box 2: `athlete with no gi` (person on bottom).
+- **Keypoints:** Place all 17 keypoints where visible. Use solid lines between visible keypoints; use **dotted lines** for connections where either keypoint or the limb is occluded (e.g., legs/arms behind the other person).
+
+---
 
 ### Example 2: Standing Match with Referee
-```
-Image: Two athletes standing, referee watching from side
 
-Bounding boxes:
-- Box 1: athlete (blue gi)
-- Box 2: athlete (white gi)
-- Box 3: referee (striped shirt)
+![Example 2: Standing match with referee](../pics/pose-keypoints.png)
 
-Keypoints:
-- Athlete 1: All 17 keypoints visible
-- Athlete 2: All 17 keypoints visible
-- Referee: All 17 keypoints visible
-```
+Two athletes in no-gi standing and a referee to the side. Each person has a tight bounding box and full pose keypoints. Referee has a distinct uniform (e.g., black shirt); athletes have rash guards/shorts.
 
-### Example 3: Complex Ground Position
-```
-Image: Athlete applying submission, both bodies twisted
+- **Bounding boxes:** Box 1: `athlete with no gi`. Box 2: `athlete with no gi`. Box 3: `referee`.
+- **Keypoints:** All three people get 17 keypoints. Use **dotted lines** (dots link) for any connection where a keypoint is occluded; solid lines where both keypoints and the limb are visible.
 
-Bounding boxes:
-- Box 1: athlete (top position, blue gi)
-- Box 2: athlete (bottom position, white gi)
+---
 
-Keypoints:
-- Athlete 1: 12 keypoints visible (legs behind opponent)
-- Athlete 2: 9 keypoints visible (arms trapped under opponent)
-```
+### Example 3: Submission / Complex Ground Position
+
+![Example 3: Submission hold](../pics/submission.png)
+
+Two athletes in no-gi in a submission or tight control position; bodies are twisted and many limbs are hidden. Draw one box per athlete. Keypoint visibility is limited—mark only what you can see and use **dotted lines** for occluded connections.
+
+- **Bounding boxes:** Box 1: `athlete with no gi` (e.g., top position). Box 2: `athlete with no gi` (e.g., bottom position).
+- **Keypoints:** Mark every visible keypoint. For any link where a keypoint (or the limb between two keypoints) is blocked by the other athlete or body, draw a **dotted line** (dots link) to indicate occlusion.
 
 ---
 
 ## Getting Help
 
 **If you're unsure about:**
-- **Class label:** Look at the uniform - different from athletes = referee
-- **Occluded keypoint:** When in doubt, mark as "not visible"
+- **Class label:** Look at the uniform - different from athletes (gi or no-gi) = referee
+- **Occluded keypoint:** When in doubt, mark as "not visible" if the tool allows it; otherwise leave the keypoint unplaced and do not guess
 - **Anatomical left/right:** Imagine you are that person, which is YOUR left arm?
 - **Bounding box size:** Err on the side of slightly larger rather than cutting off body parts
 
-**Contact:** [Your email/support channel here]
+**Contact (annotation questions, CVAT access, or unclear instructions):** support@bjj-vision.com or slack channel for your project.
+For payment or contract terms, use the channel agreed in your Upwork contract.
 
 ---
 
@@ -259,17 +318,19 @@ Based on typical annotation speed:
 
 ---
 
-## Payment & Progress
+## Payment & Progress (Outsourced / Upwork)
 
-**Batch size:** You will receive images in batches of 100-500
-**QA process:** Random sample (10-20%) will be reviewed for quality
-**Rejection criteria:** 
-- Missing people in the image
-- Wrong class labels (athlete/referee)
-- Sloppy bounding boxes (too loose or cutting off body parts)
-- Incorrect or guessed keypoints
+- **Batch size:** Images are assigned in batches (e.g. 100–500 per task). Complete all images in a task before requesting the next batch (unless otherwise agreed).
+- **QA process:** We review a random sample (typically 10–20%) of each batch. If quality is good, the batch is accepted and you may receive the next batch. Payment is processed per the terms in your contract (e.g. after batch acceptance or milestone).
+- **Payment review timeline:** We aim to complete QA and payment review within **5 business days** of you marking a batch/task as complete. You will be notified when the batch is accepted or if revisions are needed. Payment is then processed according to your Upwork contract (e.g. release of milestone or invoice approval).
+- **Revisions:** If QA finds issues, we may return a list of frames to fix (e.g. missing person, wrong label, loose box, keypoint errors). Please correct those in CVAT and tell us when done. Repeated or severe quality issues may result in batch rejection or contract review.
+- **Rejection criteria (what we check for):**
+  - Missing people in the image (all 2 athletes + referee if visible must have a box)
+  - Wrong class labels (`athlete with gi` / `athlete with no gi` / `referee`)
+  - Sloppy bounding boxes (too loose or cutting off body parts)
+  - Incorrect or guessed keypoints (or missing occluded marking / dotted lines where required)
 
-**Tip for success:** Take your time on the first 10-20 images to build accuracy, then speed will come naturally!
+**Tip for success:** Take your time on the first 10–20 images to build accuracy; then speed will come naturally.
 
 ---
 
