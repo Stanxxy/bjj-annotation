@@ -7,7 +7,7 @@ You will be annotating images from Brazilian Jiu-Jitsu (BJJ) matches to help tra
 - **This document** is your main reference. Please read it fully before starting and keep it open while you work.
 - **No BJJ experience needed.** Follow the class definitions and examples; the instructions are self-contained.
 - **Deliverables:** Annotations are done directly in CVAT. You do not export or send files—we review and export from the server. Your job is to complete the assigned tasks in CVAT with high quality.
-- **Onboarding:** You will receive CVAT login credentials and a link to this document. You may be asked to complete a small test batch (e.g. 10–20 images) for QA before full batch work.
+- **Onboarding:** You will receive CVAT login credentials and a link to this document. You may be asked to complete a small test batch (e.g. 10–20 images) for QA before full batch work. **Test batch acceptance:** We require **>90% accuracy** (correct boxes, labels, and keypoints) on the test batch to approve you for full batches. If the test does not meet this bar, we will send feedback and you may be asked to redo a test batch.
 - **Communication:** Use the contact email in "Getting Help" for annotation questions, access issues, or unclear instructions. For project scope or payment, use the channel agreed in your contract (e.g. Upwork messages).
 - **Before you start:** (1) Receive CVAT login and this document. (2) Read this document once. (3) Log in to CVAT and complete any test batch if requested. (4) Then proceed with assigned tasks.
 
@@ -20,11 +20,28 @@ Annotations are done in **CVAT**. External annotators (e.g. Upwork contractors) 
 This instance supports marking keypoints as **occluded** (position known but not visible) and using **dotted lines** (dots link) for occluded connections, as described in the keypoint section below.
 
 ### CVAT workflow (quick reference)
-- **Tasks / Jobs:** You will be assigned a task (or multiple jobs). Open the task and work through the frame list. Save your work regularly (Ctrl/Cmd + S).
+- **Tasks / Jobs:** You will be assigned a task (or multiple jobs). Open the task and work through the frame list. Save your work regularly using the save control in the annotation interface.
 - **Bounding boxes:** Use the **Rectangle** tool. Choose the correct label: `athlete with gi`, `athlete with no gi`, or `referee`. Draw one box per person.
 - **Keypoints (skeleton):** Use the **Skeleton** or **Keypoints** tool with the project’s 17-point skeleton template. Place points in order (nose → eyes → ears → shoulders → elbows → wrists → hips → knees → ankles). Mark points as **occluded** when the joint is hidden; use **dotted links** for connections where at least one endpoint is occluded.
 - **Navigation:** Use the frame strip or Next/Previous to move between images. Complete all boxes for an image before moving to keypoints, then move to the next image.
 - **No export needed:** Annotations stay in CVAT; we will review and export them on our side.
+
+### CVAT keyboard shortcuts
+Default shortcuts (your instance may differ; see below to check or change them):
+
+| Key | Action |
+|-----|--------|
+| **F** | Next frame |
+| **D** | Previous frame |
+| **N** | Repeat the latest drawing procedure (same tool and label) |
+| **V** | Step forward one frame |
+| **C** | Step backward one frame |
+| **Q** or **/** | Toggle **occluded** for the active object (useful for keypoints) |
+| **F1** | Show/hide the full shortcuts list in CVAT |
+
+**Where to see or change shortcuts:** Open **Settings** (e.g. via the user menu in the header or **F2**), then go to the **Shortcuts** tab. You can view all defaults and assign custom shortcuts; they are saved in your browser. Official reference: [CVAT Shortcuts (docs.cvat.ai)](https://docs.cvat.ai/docs/getting_started/shortcuts/).
+
+*Note: In CVAT, **Ctrl+S** is not “save annotations” by default (it opens Settings). Save your work using the save control in the annotation UI, and use the Shortcuts settings if you want to assign a key for saving.*
 
 ## What You'll Annotate
 Each image contains 2-3 people:
@@ -278,7 +295,7 @@ Two athletes in no-gi in a submission or tight control position; bodies are twis
 - **Anatomical left/right:** Imagine you are that person, which is YOUR left arm?
 - **Bounding box size:** Err on the side of slightly larger rather than cutting off body parts
 
-**Contact (annotation questions, CVAT access, or unclear instructions):** stant.x.l.18@gmail.com or slack channel for your project.
+**Contact (annotation questions, CVAT access, or unclear instructions):** support@bjj-vision.com or slack channel for your project.
 For payment or contract terms, use the channel agreed in your Upwork contract.
 
 ---
@@ -305,6 +322,7 @@ Based on typical annotation speed:
 
 - **Batch size:** Images are assigned in batches (e.g. 100–500 per task). Complete all images in a task before requesting the next batch (unless otherwise agreed).
 - **QA process:** We review a random sample (typically 10–20%) of each batch. If quality is good, the batch is accepted and you may receive the next batch. Payment is processed per the terms in your contract (e.g. after batch acceptance or milestone).
+- **Payment review timeline:** We aim to complete QA and payment review within **5 business days** of you marking a batch/task as complete. You will be notified when the batch is accepted or if revisions are needed. Payment is then processed according to your Upwork contract (e.g. release of milestone or invoice approval).
 - **Revisions:** If QA finds issues, we may return a list of frames to fix (e.g. missing person, wrong label, loose box, keypoint errors). Please correct those in CVAT and tell us when done. Repeated or severe quality issues may result in batch rejection or contract review.
 - **Rejection criteria (what we check for):**
   - Missing people in the image (all 2 athletes + referee if visible must have a box)
